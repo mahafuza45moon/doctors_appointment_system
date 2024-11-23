@@ -3,9 +3,12 @@ from django.db import models
 from django.conf import settings
 
 class AppUser(models.Model):
+    DOCTOR = 'doctor'
+    PATIENT = 'patient'
+
     USER_TYPE_CHOICES = (
-        ('doctor', 'Doctor'),
-        ('patient', 'Patient'),
+        (DOCTOR, 'Doctor'),
+        (PATIENT, 'Patient'),
     )
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)

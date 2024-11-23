@@ -8,6 +8,8 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
+            if form.cleaned_data['user_type'] != 'patient':
+                return render(request, 'member/register.html', {'form': form, 'error': 'Invalid user type'})
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
@@ -19,7 +21,6 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'member/register.html', {'form': form})
-
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

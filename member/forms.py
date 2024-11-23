@@ -4,8 +4,7 @@ from .models import AppUser
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
-    user_type = forms.ChoiceField(choices=AppUser.USER_TYPE_CHOICES)
-
+    user_type = forms.ChoiceField(choices=AppUser.USER_TYPE_CHOICES, initial='patient', widget=forms.HiddenInput())
     class Meta:
         model = User
         fields = ['username', 'email', 'password']
