@@ -1,0 +1,13 @@
+
+<h1>Book Appointment with Dr. {{ schedule.doctor.user.username }}</h1>
+<form method="post">
+    {% csrf_token %}
+    <p><strong>Day:</strong> {{ schedule.day }}</p>
+    <p><strong>Time:</strong> {{ schedule.time|date:"h:i A" }}</p>
+    <label for="reason">Reason (Optional):</label><br>
+    <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br><br>
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <button type="submit">Book Appointment</button>
+</form>
