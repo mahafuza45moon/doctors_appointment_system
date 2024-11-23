@@ -31,6 +31,11 @@ def user_login(request):
             if user:
                 login(request, user)
                 return redirect('home')
+            else:
+                return render(request, 'member/login.html', {
+                    'form': form,
+                    'error': 'Invalid username or password.'
+                })
     else:
         form = LoginForm()
     return render(request, 'member/login.html', {'form': form})

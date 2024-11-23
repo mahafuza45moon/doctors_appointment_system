@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors Appointment System</title>
 </head>
 <body>
-    <h1>Welcome to the Doctors Appointment System</h1>
-    <p>You are logged in as {{ user.username }}</p>
+    <header>
+        <h1>Welcome to the Doctors Appointment System</h1>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'schedule_list' %}">View Schedules</a></li>
+                    <li><a href="{% url 'appointment_list' %}">My Appointments</a></li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">
+                            Logout
+                        </button>
+                    </form>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% if user.is_authenticated %}
+            <p>You are logged in as {{ user.username }}</p>
+        {% else %}
+            <p>Welcome! Please log in or register to manage your appointments.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Doctors Appointment System</p>
+    </footer>
 </body>
 </html>
