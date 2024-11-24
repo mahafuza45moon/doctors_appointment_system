@@ -20,7 +20,7 @@
             <td>{{ schedule.time|date:"h:i A" }}</td>
             <td>{{ schedule.floor }}</td>
             <td>{{ schedule.room_number }}</td>
-            <td><a href="{% url 'book_appointment' schedule.id %}">Book</a></td>
+            {% if user.appuser.user_type == 'patient' %}<td><a href="{% url 'book_appointment' schedule.id %}">Book</a></td>{% endif %}
         </tr>
         {% endfor %}
     </tbody>
