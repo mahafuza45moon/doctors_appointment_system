@@ -1,4 +1,5 @@
-
+{% extends 'base.html' %}
+{% block content %}
 <h1>Book Appointment with Dr. {{ schedule.doctor.user.username }}</h1>
 <form method="post">
     {% csrf_token %}
@@ -11,3 +12,4 @@
     {% endif %}
     <button type="submit">Book Appointment</button>
 </form>
+{% endblock %}
