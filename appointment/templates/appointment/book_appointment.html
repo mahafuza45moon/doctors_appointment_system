@@ -1,15 +1,38 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h1>Book Appointment with Dr. {{ schedule.doctor.user.username }}</h1>
-<form method="post">
-    {% csrf_token %}
-    <p><strong>Day:</strong> {{ schedule.day }}</p>
-    <p><strong>Time:</strong> {{ schedule.time|date:"h:i A" }}</p>
-    <label for="reason">Reason (Optional):</label><br>
-    <textarea id="reason" name="reason" rows="4" cols="50"></textarea><br><br>
-    {% if error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <button type="submit">Book Appointment</button>
-</form>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="h4 mb-0">Book Appointment with Dr. {{ schedule.doctor.user.username }}</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <p><strong>Day:</strong> {{ schedule.day }}</p>
+                    <p><strong>Time:</strong> {{ schedule.time|date:"h:i A" }}</p>
+                </div>
+
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason (Optional):</label>
+                    <textarea id="reason" name="reason" class="form-control" rows="4"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label for="file_upload" class="form-label">Upload Document (Optional):</label>
+                    <input type="file" id="file_upload" name="file_upload" class="form-control">
+                </div>
+
+                {% if error %}
+                    <div class="alert alert-danger">
+                        <p>{{ error }}</p>
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

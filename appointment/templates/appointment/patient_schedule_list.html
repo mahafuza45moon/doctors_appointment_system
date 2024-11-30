@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Available Schedules</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Specialty</th>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Floor</th>
+                        <th>Room</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for schedule in schedules %}
+                    <tr>
+                        <td>{{ schedule.doctor.user.username }}</td>
+                        <td>{{ schedule.doctor.specialty|default:"N/A" }}</td>
+                        <td>{{ schedule.day }}</td>
+                        <td>{{ schedule.time|date:"h:i A" }}</td>
+                        <td>{{ schedule.floor }}</td>
+                        <td>{{ schedule.room_number }}</td>
+                        {% if user.appuser.user_type == 'patient' %}
+                        <td>
+                            <a href="{% url 'book_appointment' schedule.id %}" class="btn btn-success btn-sm">
+                                Book Appointment
+                            </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No schedules available at the moment.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

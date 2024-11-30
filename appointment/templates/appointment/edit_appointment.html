@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Edit Appointment</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- Reason for Appointment -->
+        <div class="mb-3">
+            <label for="reason" class="form-label">Reason for Appointment:</label>
+            <textarea
+                id="reason"
+                name="reason"
+                class="form-control"
+                rows="4"
+                >{{ appointment.reason }}</textarea>
+            <div class="invalid-feedback">
+                Please provide a reason for the appointment.
+            </div>
+        </div>
+
+        <!-- File Upload -->
+        <div class="mb-3">
+            <label for="file_upload" class="form-label">Upload File:</label>
+            <input
+                type="file"
+                id="file_upload"
+                name="file_upload"
+                class="form-control">
+            <div class="form-text">
+                Optional: Upload any relevant documents (Max: 2MB).
+            </div>
+        </div>
+
+        <!-- Reschedule Dropdown -->
+        <div class="mb-3">
+            <label for="schedule_id" class="form-label">Reschedule to:</label>
+            <select id="schedule_id" name="schedule_id" class="form-select" required>
+                <!-- Current Schedule -->
+                <option value="{{ appointment.schedule.id }}" selected>
+                    Dr. {{ appointment.schedule.doctor.user.username }} -
+                    {{ appointment.schedule.day }} - {{ appointment.schedule.time|date:"h:i A" }}
+                    (Room {{ appointment.schedule.room_number }}, Floor {{ appointment.schedule.floor }})
+                </option>
+
+                <!-- Available Schedules -->
+                {% for schedule in available_schedules %}
+                <option value="{{ schedule.id }}">
+                    Dr. {{ schedule.doctor.user.username }} -
+                    {{ schedule.day }} - {{ schedule.time|date:"h:i A" }}
+                    (Room {{ schedule.room_number }}, Floor {{ schedule.floor }})
+                </option>
+                {% endfor %}
+            </select>
+            <div class="invalid-feedback">
+                Please select a new schedule.
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-between mt-4">
+            <button type="submit" class="btn btn-primary">Update Appointment</button>
+            <a href="{% url 'appointment_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Bootstrap form validation
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+        Array.from(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}
