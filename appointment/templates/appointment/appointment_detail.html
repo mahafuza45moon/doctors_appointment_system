@@ -25,7 +25,11 @@
                         <th scope="row">Uploaded File</th>
                         <td>
                             {% if appointment.file_upload %}
-                                <a href="{{ appointment.file_upload.url }}" target="_blank" class="btn btn-info btn-sm">View Uploaded File</a>
+                                {% with appointment.file_upload.url|lower as file_url %}
+
+
+                                  <a href="{{ appointment.file_upload.url }}" target="_blank" class="btn btn-info btn-sm"><img src="{{ file_url }}" alt="Uploaded File" class="img-fluid rounded" style="max-width: 100%; height: auto;"></a>
+                                {% endwith %}
                             {% else %}
                                 <span class="text-muted">No file uploaded</span>
                             {% endif %}
